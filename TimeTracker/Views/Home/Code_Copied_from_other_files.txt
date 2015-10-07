@@ -1,0 +1,191 @@
+﻿<div ng-app="crudModule" ng-controller="crudController">
+    <table id="tblCRUD">
+        <tr>
+            <td><span>EmployeeId</span></td>
+            <td><input type="text" id="EmployeeId" ng-model="EmployeeId"/></td>
+        </tr>
+        <tr>
+            <td><span>First Name</span></td>
+            <td><input type="text" id="firstName" ng-model="FirstName" /></td>
+        </tr>
+    </table>
+
+    <input type="button" id="find" value="Find" ng-click="get(EmployeeId)" />
+
+</div>
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.js"></script>
+<script src="~/Scripts/MyScripts/Module.js"></script>
+<script src="~/Scripts/MyScripts/Service.js"></script>
+<script src="~/Scripts/MyScripts/Controller.js"></script>
+
+
+
+
+/// <reference path="../angular.js" />
+/// <reference path="Module.js" />
+
+app.controller('crudController', function ($scope, crudService) {
+
+    //Method to GET a single Employee using EmployeeID
+    $scope.get = function (Employee) {
+        var promiseGetSingle = crudService.get(Employee.EmployeeId);
+
+        promiseGetSingle.then(function(pl) {
+            var res = pl.data;
+            $scope.EmployeeId = res.EmployeeId;
+            $scope.FirstName = res.FirstName;
+            $scope.LastName = res.LastName;
+            $scope.Email = res.Email;
+            $scope.Phone = res.Phone;
+            $scope.IsManager = res.IsManager;
+        },
+            function (errorPl) {
+                console.log('Failure loading Employee', errorPl);
+            })
+    }
+
+        })
+
+
+<div ng-app="myApp">
+<div ng-controller="myController">
+<p>First Name: {{ firstName }}</p>
+<p>Last Name: {{ lastName }}</p>
+<p>Email: {{ email }}</p>
+<p>Phone: {{ phoneNumber }}</p>
+<p>Is Manager? {{ isManager }}</p>
+</div>
+
+<div ng-controller="listController">
+{{ headingText }}
+<p ng-repeat="x in employees">{{ x.lastName }}</p>
+</div>
+
+</div>
+
+<script src="~/Scripts/angular.js"></script>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myController', function ($scope, $http) {
+        $http.get("/api/Employee/1").success(function (data, status, headers, config) {
+            $scope.firstName = data.firstName;
+            $scope.lastName = data.lastName;
+            $scope.email = data.email;
+            $scope.phoneNumber = data.phoneNumber;
+            $scope.isManager = data.isManager;
+        });
+    });
+
+    app.controller('listController', function ($scope, $http) {
+        $scope.employees = [];
+        $scope.headingText = "This is the list heading";
+        $http.get("/api/Employee/").success(function (data, status, headers, config) {
+            $scope.employees = data;
+        })
+    })
+</script>
+
+
+
+
+
+
+<div ng-app="crudModule" ng-controller="crudController">
+    <table id="tblCRUD">
+        <tr>
+            <td><span>EmployeeId</span></td>
+            <td><input type="text" id="searchId" ng-model="employeeId" /></td>
+        </tr>
+        <tr>
+            <td><span>First Name</span></td>
+            <td><input type="text" id="firstName" ng-model="firstName" /></td>
+        </tr>
+    </table>
+
+    <input type="button" id="find" value="Find" ng-click="get(employeeId)" />
+
+</div>
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.js"></script>
+<script src="~/Scripts/MyScripts/Module.js"></script>
+<script src="~/Scripts/MyScripts/Service.js"></script>
+<script src="~/Scripts/MyScripts/Controller.js"></script>
+
+
+
+
+function fetch() {
+    $http.get("http://www.omdbapi.com/?t=" + 
+       $scope.search + "&tomatoes=true&plot=full")
+     .success(function(response){$scope.details = response;});
+
+    $http.get("http://www.omdbapi.com/?s=" + $scope.search)
+     .success(function(response){$scope.related = response;});
+  }
+
+
+  ==============
+
+  
+
+<div ng-app="myApp">
+    <div ng-controller="myController">
+        <input type="text" id="searchId" ng-model="employeeId" />
+        <input type="button" id="searchButton" value="Get Employee" ng-click="get(employeeId)"
+        <br />
+        <p>First Name: {{ firstName }}</p>
+        <p>Last Name: {{ lastName }}</p>
+        <p>Email: {{ email }}</p>
+        <p>Phone: {{ phoneNumber }}</p>
+        <p>Is Manager? {{ isManager }}</p>
+    </div>
+
+    <div ng-controller="listController">
+        {{ headingText }}
+        <p ng-repeat="x in employees">{{ x.lastName }}</p>
+    </div>
+
+</div>
+
+<script src="~/Scripts/angular.js"></script>
+
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myController', function ($scope, $http) {
+        $scope.firstName = "";
+        $scope.lastName = "";
+        $scope.email = "";
+        $scope.phoneNumber = "";
+        $scope.isManager = "";
+
+        $scope.get = function(employeeId) {
+            $http.get("/api/Employee/" + $scope.employeeId).success(function (data, status, headers, config) {
+                $scope.firstName = data.firstName;
+                $scope.lastName = data.lastName;
+                $scope.email = data.email;
+                $scope.phoneNumber = data.phoneNumber;
+                $scope.isManager = data.isManager;
+            });
+        };
+    });
+
+    app.controller('listController', function ($scope, $http) {
+        $scope.employees = [];
+        $scope.headingText = "This is the list heading";
+        $http.get("/api/Employee/").success(function (data, status, headers, config) {
+            $scope.employees = data;
+        })
+    })
+</script>
+
+
+
+<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.js"></script>
+<script src="~/Scripts/MyScripts/Module.js"></script>
+<script src="~/Scripts/MyScripts/EmployeeController.js"></script>
+

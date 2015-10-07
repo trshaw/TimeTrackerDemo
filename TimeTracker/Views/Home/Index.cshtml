@@ -1,0 +1,248 @@
+﻿<script src="~/Scripts/angular.js"></script>
+<script src="~/Scripts/angular-route.js"></script>
+<script src="~/Scripts/MyScripts/Module.js"></script>
+<script src="~/Scripts/MyScripts/EmployeeController.js"></script>
+<script src="~/Scripts/MyScripts/ProjectController.js"></script>
+<script src="~/SCripts/MyScripts/TimeEntryController.js"></script>
+<script src="~/SCripts/MyScripts/LoginController.js"></script>
+
+<div ng-app="timeTracker">
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#timeentry">Time Entry</a></li>
+    <li><a data-toggle="tab" href="#employees">Employees</a></li>
+    <li><a data-toggle="tab" href="#projects">Projects</a></li>
+</ul>
+
+    <div class="tab-content">
+         
+        <div ng-controller="timeEntryController" id="timeentry" class="tab-pane fade in active">
+            <div id="timeEntryProjectList">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Project ID</th>
+                            <th>Project Code</th>
+                            <th>Project Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="p in projects">
+                            <td>{{ p.projectId }}</td>
+                            <td>{{ p.projectCode }}</td>
+                            <td>{{ p.projectName }}</td>
+                            <td><input type="button" value="Add Time Entry" ng-click="getOne(p.projectId)" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="newTimeEntryForm">
+                <table id="tblNewTimeEntry">
+                    <tr ng-hide="true">
+                        <td><span>Project ID</span></td>
+                        <td><input type="text" id="newTimeEntryProjectId" ng-model="projectId" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Project Code</span></td>
+                        <td><input type="text" id="newTimeEntryProjectCode" ng-model="projectCode"></td>
+                    </tr>
+                    <tr>
+                        <td><span>Employee ID</span></td>
+                        <td><input type="text" id="newTimeEntryEmployeeID" ng-model="employeeId" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Hours Worked</span></td>
+                        <td><input type="number" id="newTimeEntryTimeDuration" ng-model="timeDuration" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Description</span></td>
+                        <td><input type="text" id="newTimeEntryDescription" ng-model="description" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Billable?</span></td>
+                        <td><input type="checkbox" id="newTimeEntryisBillable" ng-model="isBillable" /></td>
+                    </tr>
+                </table>
+
+                <input type="button" id="newTimeEntry" value="Save" ng-click="saveTimeEntry()" />
+            </div>
+        </div>
+
+        <div ng-controller="employeeController" id="employees" class="tab-pane fade">
+            <div id="editForm" ng-show="editMode && !newMode">
+                <table id="tblEditForm">
+                    <tr>
+                        <td><span>Employee ID</span></td>
+                        <td><input type="text" id="employeeId" ng-model="employeeId" readonly="readonly" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>First Name</span></td>
+                        <td><input type="text" id="firstName" ng-model="firstName" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Last Name</span></td>
+                        <td><input type="text" id="lastName" ng-model="lastName" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Email Address</span></td>
+                        <td><input type="email" id="email" ng-model="email" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Phone Number</span></td>
+                        <td><input type="text" id="phone" ng-model="phoneNumber" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Manager?</span></td>
+                        <td><input type="checkbox" id="isManager" ng-model="isManager" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Terminated?</span></td>
+                        <td><input type="checkbox" id="isTerminated" ng-model="isTerminated"/></td>
+                    </tr>
+                </table>
+
+                <input type="button" id="find" value="Update" ng-click="updateEmployee()" />
+
+                <div id="timeEntryList">
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Project Code</th>
+                                <th>Project Name</th>
+                                <th>Hours Worked</th>
+                                <th>Description</th>
+                                <th>Billable?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="t in timeEntries">
+                                <td>{{ t.project.projectCode }}</td>
+                                <td>{{ t.project.projectName }}</td>
+                                <td>{{ t.timeDuration }}</td>
+                                <td>{{ t.description }}</td>
+                                <td>{{ t.isBillable }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="newForm" ng-show="newMode && !editMode">
+                <table id="tblNewForm">
+                    <tr>
+                        <td><span>First Name</span></td>
+                        <td><input type="text" id="newFirstName" ng-model="firstName" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Last Name</span></td>
+                        <td><input type="text" id="newLastName" ng-model="lastName" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Email Address</span></td>
+                        <td><input type="email" id="newEmail" ng-model="email" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Phone Number</span></td>
+                        <td><input type="text" id="newPhone" ng-model="phoneNumber" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Manager?</span></td>
+                        <td><input type="checkbox" id="newIsManager" ng-model="isManager" /></td>
+                    </tr>
+                </table>
+
+                <input type="button" id="newEmployee" value="Save" ng-click="saveEmployee()" />
+            </div>
+
+            <div id="employeeList" ng-show="!editMode && !newMode">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Edit</th>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Manager?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="e in employees">
+                            <td><input type="button" value="Edit" ng-click="getOne(e.employeeId)" /></td>
+                            <td>{{ e.employeeId }}</td>
+                            <td>{{ e.firstName }}</td>
+                            <td>{{ e.lastName }}</td>
+                            <td>{{ e.email }}</td>
+                            <td>{{ e.phoneNumber }}</td>
+                            <td>{{ e.isManager}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="button" id="newEmployee" value="Add Employee" ng-click="showNewForm()" />
+            </div>
+         </div>
+
+        <div ng-controller="projectController" id="projects" class="tab-pane fade">
+            <div id="projectList" ng-show="!editMode && !newMode">
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>Edit</th>
+                            <th>ID</th>
+                            <th>Project Code</th>
+                            <th>Project Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="p in projects">
+                            <td><input type="button" value="Edit" ng-click="getOne(p.projectId)" /></td>
+                            <td>{{ p.projectId }}</td>
+                            <td>{{ p.projectCode }}</td>
+                            <td>{{ p.projectName }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <input type="button" id="newProject" value="Add Project" ng-click="showNewForm()" />
+            </div>
+
+            <div id="editProjectForm" ng-show="editMode && !newMode">
+                <table id="tblEditProject">
+                    <tr>
+                        <td><span>Project ID</span></td>
+                        <td><input type="text" id="projectId" ng-model="projectId" readonly="readonly" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Project Code</span></td>
+                        <td><input type="text" id="projectCode" ng-model="projectCode" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Project Name</span></td>
+                        <td><input type="text" id="projectName" ng-model="projectName" /></td>
+                    </tr>
+                </table>
+
+                <input type="button" id="updateProject" value="Update" ng-click="updateProject()" />
+                <input type="button" id="deleteProject" value="Delete" ng-click="deleteProject()" />
+            </div>
+
+            <div id="newProjectForm" ng-show="newMode && !editMode">
+                <table id="tblNewProject">
+                    <tr>
+                        <td><span>Project Code</span></td>
+                        <td><input type="text" id="newProjectCode" ng-model="projectCode" /></td>
+                    </tr>
+                    <tr>
+                        <td><span>Project Name</span></td>
+                        <td><input type="text" id="newProjectName" ng-model="projectName" /></td>
+                    </tr>
+                </table>
+
+                <input type="button" id="newEmployee" value="Save" ng-click="saveProject()" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
