@@ -6,7 +6,6 @@
 app.controller("timeEntryController", function ($scope, $http) {
 
     $scope.editMode = false;
-    $scope.newMode = false;
 
     //Method to GET a single Project using ProjectID
     $scope.getOne = function (projectId) {
@@ -48,6 +47,7 @@ app.controller("timeEntryController", function ($scope, $http) {
             $scope.isBillable = false;
             $scope.description = "";
         });
+        $scope.editMode = false;
     };
 
     // Display blank Project form

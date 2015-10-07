@@ -16,7 +16,7 @@
     <div class="tab-content">
 
         <div ng-controller="timeEntryController" id="timeentry" class="tab-pane fade in active">
-            <div id="timeEntryProjectList">
+            <div id="timeEntryProjectList" ng-hide="editMode">
                 <table border="1">
                     <thead>
                         <tr>
@@ -37,7 +37,7 @@
                 </table>
             </div>
 
-            <div id="newTimeEntryForm">
+            <div id="newTimeEntryForm" ng-show="editMode">
                 <table id="tblNewTimeEntry">
                     <tr ng-hide="true">
                         <td><span>Project ID</span></td>
@@ -224,7 +224,7 @@
                 </table>
 
                 <input type="button" id="updateProject" value="Update" ng-click="updateProject()" />
-                <input type="button" id="deleteProject" value="Delete" ng-click="deleteProject()" />
+                <input type="button" id="deleteProject" value="Delete" ng-click="deleteProject()" ng-hide="true" />
             </div>
 
             <div id="newProjectForm" ng-show="newMode && !editMode">

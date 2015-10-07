@@ -20,8 +20,6 @@ namespace TimeTracker.Controllers
         // GET api/Employee
         public IQueryable<Employee> GetEmployees()
         {
-            //return db.Employees.Where(x => x.IsTerminated==false).ToArray(); //.Include(t => t.TimeEntries);
-
             var employees = from b in db.Employees
                         where b.IsTerminated==false
                         select b;

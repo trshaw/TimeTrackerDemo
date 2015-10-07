@@ -31,8 +31,6 @@ namespace TimeTracker.Models
 
         public bool IsTerminated { get; set; }
 
-        //public virtual ICollection<TimeEntry> TimeEntries { get; set; }
-
         public virtual List<TimeEntry> TimeEntries { get; set; }
 
     }
